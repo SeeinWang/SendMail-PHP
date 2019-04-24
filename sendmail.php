@@ -33,6 +33,14 @@ if($city == 0){
   else{
     $cit ="加拿大";
   }
+// 生成随机数
+//$orderNumber = rand(10000,100000)；
+//$Number = 1111;
+
+// 生成订单号
+
+//$orderNumber = ".$wxnumber.".$Number.";
+
 
 
 //Validate first
@@ -46,19 +54,20 @@ if(IsInjected($visitor_email))
     echo "Bad email value!";
     exit;
 }
-$email_from = "info@guangson.ca";//<== update the email address;
+//$email_from = "info@guangson.ca";//<== update the email address;
 $email_subject = "=?UTF-8?B?".base64_encode("订单确认")."?=";
-$email_body = "<html>
+$htmlContent = "<html>
 <head><meta name='viewport' content='width=device-width, initial-scale=1.0'></head><body>
-<div style='width:60%; margin: 0 auto; padding-left:300px'>
-      <div style='margin-bottom:50px'>
+<div style='margin: 0 auto;'>
+      <div style='margin-bottom:20px'>
               <img style ='padding-bottom: 30px;padding-top: 30px'
                src = 'http://guangson.com/Content/images/logo.png'>
        </div>         
         <p>您好".$name.":</p>
         <p>感谢您购买的我们的服务 ".$title." 价格是".$price."rmb,您的订单号是".$orderNumber."</p>
-        <p>请您核对下列基本信息，如果需要修改或者有问题，请联系我们。</p>               
-        <table style='border:1px solid black; font-size:18px; width:100%;min-height: 30px; 
+        <p>请您核对下列基本信息，如果需要修改或者有问题，请联系我们。</p>
+                       
+        <table style='border:1px solid black; font-size:18px; width:60%;min-height: 30px; 
         line-height: 30px; text-align: center; border-collapse: collapse;margin-top:5%' >
         <tr>
         <th style='border:1px solid black;'>项目</th>
@@ -96,9 +105,13 @@ $email_body = "<html>
         <td style='border:1px solid black;'>微信号码</td>
         <td style='border:1px solid black;'>".$wxnumber."</td>
         </tr>
+        <tr>
+        <td style='border:1px solid black;'>电子邮箱</td>
+        <td style='border:1px solid black;'>".$visitor_email."</td>
+        </tr>
 
         <tr>
-        <td style='border:1px solid black;'>现在所在地</td>
+        <td style='border:1px solid black;'>所在地</td>
         <td style='border:1px solid black;'>".$cit."</td>
         </tr>
 
@@ -132,15 +145,51 @@ $email_body = "<html>
        </div>
        </div>
 </body></html>";
+
+$file = "/var/www/html/checklist.docx";
     
 $to = $visitor_email;//<== update the email address
-$headers  = "MIME-Version: 1.0\r\n";
-$headers .= "Content-type: text/html; charset=UTF-8\r\n";
-$headers .= "From: info@guangson.ca \r\n";
-$headers .= "Reply-To: info@guangson.ca \r\n";
-$headers .= "X-Mailer: PHP/".phpversion();
-//Send the email!
-mail($to, $email_subject, $email_body, $headers);
+
+//sender
+$from = 'info@guangson.ca';
+$fromName = 'Guangson';
+
+//header for sender info
+$headers = "From: $fromName"." <".$from.">";
+
+
+//boundary 
+$semi_rand = md5(time()); 
+$mime_boundary = "==Multipart_Boundary_x{$semi_rand}x"; 
+
+//headers for attachment 
+$headers .= "\nMIME-Version: 1.0\n" . "Content-Type: multipart/mixed;\n" . " boundary=\"{$mime_boundary}\""; 
+
+//multipart boundary 
+$message = "--{$mime_boundary}\n" . "Content-Type: text/html; charset=\"UTF-8\"\n" .
+"Content-Transfer-Encoding: 7bit\n\n" . $htmlContent . "\n\n"; 
+
+//preparing attachment
+if(!empty($file) > 0){
+    if(is_file($file)){
+        $message .= "--{$mime_boundary}\n";
+        $fp =    @fopen($file,"rb");
+        $data =  @fread($fp,filesize($file));
+
+        @fclose($fp);
+        $data = chunk_split(base64_encode($data));
+        $message .= "Content-Type: application/octet-stream; name=\"".basename($file)."\"\n" . 
+        "Content-Description: ".basename($file)."\n" .
+        "Content-Disposition: attachment;\n" . " filename=\"".basename($file)."\"; size=".filesize($file).";\n" . 
+        "Content-Transfer-Encoding: base64\n\n" . $data . "\n\n";
+    }
+}
+$message .= "--{$mime_boundary}--";
+$returnpath = "-f" . $from;
+
+//send email
+$mail = @mail($to, $email_subject, $message, $headers, $returnpath); 
+
 //done. redirect to thank-you page.
 //echo "$name  $visitor_email $message \n $email_body ";
 //回到原来页面
