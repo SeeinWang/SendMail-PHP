@@ -34,12 +34,16 @@ if($city == 0){
     $cit ="加拿大";
   }
 // 生成随机数
-//$orderNumber = rand(10000,100000)；
-//$Number = 1111;
+function order($name){
+ $tel = rand(1000,10000);
+ return $name.strval($tel);
+}
+
+$orderNumber = order($name);
+
 
 // 生成订单号
 
-//$orderNumber = ".$wxnumber.".$Number.";
 
 
 
