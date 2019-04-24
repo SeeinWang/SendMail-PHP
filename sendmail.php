@@ -11,9 +11,30 @@ $wxnumber=$_POST['wxnumber'];
 $city=$_POST['city'];
 $price = $_POST['price'];
 $title = $_POST['title'];
+$sex = $_POST['sex'];
+$city = $_POST['city'];
+
+
 
 
 echo $title;
+
+if($sex == 0){
+  $Se = "男";
+  }
+  else{
+    $Se ="女";
+  }
+
+
+if($city == 0){
+  $cit = "中国";
+  }
+  else{
+    $cit ="加拿大";
+  }
+
+
 //Validate first
 if(empty($visitor_email)) 
 {
@@ -48,6 +69,10 @@ $email_body = "<html>
         <td style='border:1px solid black;'>".$name."</td>
         </tr>
         <tr>
+        <td style='border:1px solid black;'>性别</td>
+        <td style='border:1px solid black;'>".$Se."</td>
+        </tr>
+        <tr>
         <td style='border:1px solid black;'>生日</td>
         <td style='border:1px solid black;'>".$birthday."</td>
         </tr>
@@ -68,9 +93,15 @@ $email_body = "<html>
         <td style='border:1px solid black;'>".$tel."</td>
         </tr>
         <tr>
-        <td style='border:1px solid black;'>微信</td>
+        <td style='border:1px solid black;'>微信号码</td>
         <td style='border:1px solid black;'>".$wxnumber."</td>
         </tr>
+
+        <tr>
+        <td style='border:1px solid black;'>现在所在地</td>
+        <td style='border:1px solid black;'>".$cit."</td>
+        </tr>
+
         
         </table>
       <div style='color:blue'>
