@@ -11,6 +11,8 @@ $wxnumber=$_POST['wxnumber'];
 $city=$_POST['city'];
 $price = $_POST['price'];
 $title = $_POST['title'];
+
+
 echo $title;
 //Validate first
 if(empty($visitor_email)) 
@@ -25,16 +27,18 @@ if(IsInjected($visitor_email))
 }
 $email_from = "info@guangson.ca";//<== update the email address;
 $email_subject = "=?UTF-8?B?".base64_encode("订单确认")."?=";
-$email_body = "<html><body>
-      <div>
-              <img style ='padding-left:20%;padding-bottom: 30px;padding-top: 30px'
+$email_body = "<html>
+<head><meta name='viewport' content='width=device-width, initial-scale=1.0'></head><body>
+<div style='width:60%; margin: 0 auto; padding-left:300px'>
+      <div style='margin-bottom:50px'>
+              <img style ='padding-bottom: 30px;padding-top: 30px'
                src = 'http://guangson.com/Content/images/logo.png'>
        </div>         
         <p>您好".$name.":</p>
         <p>感谢您购买的我们的服务 ".$title." 价格是".$price."rmb,您的订单号是".$orderNumber."</p>
         <p>请您核对下列基本信息，如果需要修改或者有问题，请联系我们。</p>               
-        <table style='border:1px solid black;  width: 300px; min-height: 25px; 
-         line-height: 25px; text-align: center; border-collapse: collapse;' >
+        <table style='border:1px solid black; font-size:18px; width:100%;min-height: 30px; 
+        line-height: 30px; text-align: center; border-collapse: collapse;margin-top:5%' >
         <tr>
         <th style='border:1px solid black;'>项目</th>
         <th style='border:1px solid black;'>内容</th>
@@ -73,9 +77,9 @@ $email_body = "<html><body>
                      <p>后续步骤：</p>
                      <p>请您下载附件，根据您自身情况填写后直接回复到发件邮箱，如有疑问，请联系我们。</p>
        </div>
-        <div style='padding-left:5px;padding-top: 20px'>
-              <p>关于我们：</p>
-              <p>佳亨国际自2006年于加拿大成立以来，经过
+        <div style='padding-left:5px;padding-top: 20px;padding-right:300px; width:600px'>
+              <p style='font-weight:bold;'>关于我们：</p>
+              <p style='line-height:2'>佳亨国际自2006年于加拿大成立以来，经过
 十余年的快速发展，在加拿大地区设立了4个
 常驻办公室及数十个地区的联络人，遍布加
 拿大各大省市，且在中国地区设立了5个常驻
@@ -84,10 +88,10 @@ $email_body = "<html><body>
 到移民规划的一站式服务。十多年来，我们累计为40,000多
 名留学、移民客户成功办理了65,000多件留学及移民案例，
 签证通过率高达99.2%。</p>
-              <p>联系我们：</p>
+              <p style='font-weight:bold;' >联系我们：</p>
               <p>邮件：info@guangson.com<p>
               <p>电话：+1 604-408-7777</p>
-              <p>地址：<br>佳亨国际留学中心: 1017-4500 Kingsway, Burnaby, BC <br> 
+              <p style='line-height:2'>地址：<br>佳亨国际留学中心: 1017-4500 Kingsway, Burnaby, BC <br> 
  佳亨国际移民中心: 6262 Willingdon Ave, Burnaby, BC<br>
 佳亨国际列治文店: 3270-4000 NO.3 Rd., Richmond, BC<br>
 佳亨国际多伦多店: #336-4750 Yonge St., Toronto, ON</p>
@@ -95,7 +99,7 @@ $email_body = "<html><body>
               周六到周日: 11AM - 6PM</p>
               
        </div>
-       
+       </div>
 </body></html>";
     
 $to = $visitor_email;//<== update the email address
