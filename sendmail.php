@@ -31,7 +31,7 @@ if($city == 0){
   $cit = "中国";
   }
   else{
-    $cit ="加拿大";
+  $cit ="加拿大";
   }
 // 生成随机数
 function order($name){
@@ -39,13 +39,19 @@ function order($name){
  return $name.strval($tel);
 }
 
-$orderNumber = order($name);
-
 
 // 生成订单号
 
+$orderNumber = order($name);
 
+// 生成现在时间戳
 
+function createDate(){
+$date = date("Y-m-d H:i");
+return $date;
+}
+
+$orderDate = createDate();
 
 //Validate first
 if(empty($visitor_email)) 
@@ -68,8 +74,10 @@ $htmlContent = "<html>
                src = 'http://guangson.com/Content/images/logo.png'>
        </div>         
         <p>您好".$name.":</p>
-        <p>感谢您购买的我们的服务 ".$title." 价格是".$price."rmb,您的订单号是".$orderNumber."</p>
-        <p>请您核对下列基本信息，如果需要修改或者有问题，请联系我们。</p>
+        <p style='font-size:18px;'>感谢您购买的我们的服务 ".$title." 价格是".$price."rmb,您的订单号是".$orderNumber."</p>
+        <p style='font-size:18px;'>请您核对下列基本信息，如果需要修改或者有问题，请联系我们。</p>
+        <p style='font-size:18px;'>Order # : ".$orderNumber."</p>
+        <p style='font-size:18px;'>Order Date: ".$orderDate."</p>
                        
         <table style='border:1px solid black; font-size:18px; width:60%;min-height: 30px; 
         line-height: 30px; text-align: center; border-collapse: collapse;margin-top:5%' >
